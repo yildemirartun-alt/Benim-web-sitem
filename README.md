@@ -1,4 +1,3 @@
-# Benim-web-sitem
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -676,4 +675,234 @@
 <section id="tiers">
   <div class="section-inner">
     <div class="section-header reveal">
-      <div class=
+      <div class="tag">2025 Meta</div>
+      <h2>AJAN <span>TIER LIST</span></h2>
+      <p>Güncel meta'ya göre ajanlar güçten zayıfa sıralandı.</p>
+    </div>
+    <div class="reveal" style="max-width:800px;margin:0 auto;">
+      <div class="tier-table">
+        <div class="tier-row">
+          <div class="tier-label s">S</div>
+          <div class="tier-agents">
+            <span class="tier-agent">Phoenix</span>
+            <span class="tier-agent">Neon</span>
+            <span class="tier-agent">Reyna</span>
+            <span class="tier-agent">Sova</span>
+            <span class="tier-agent">Clove</span>
+            <span class="tier-agent">Sage</span>
+            <span class="tier-agent">Vyse</span>
+            <span class="tier-agent">Omen</span>
+          </div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-label a">A</div>
+          <div class="tier-agents">
+            <span class="tier-agent">Jett</span>
+            <span class="tier-agent">Raze</span>
+            <span class="tier-agent">Fade</span>
+            <span class="tier-agent">Skye</span>
+            <span class="tier-agent">Killjoy</span>
+            <span class="tier-agent">Gekko</span>
+            <span class="tier-agent">Viper</span>
+            <span class="tier-agent">Yoru</span>
+          </div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-label b">B</div>
+          <div class="tier-agents">
+            <span class="tier-agent">Cypher</span>
+            <span class="tier-agent">Chamber</span>
+            <span class="tier-agent">Breach</span>
+            <span class="tier-agent">Brimstone</span>
+            <span class="tier-agent">Deadlock</span>
+            <span class="tier-agent">Iso</span>
+            <span class="tier-agent">KAY/O</span>
+            <span class="tier-agent">Astra</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p style="color:#fff;font-family:'Orbitron',sans-serif;font-size:.9rem;letter-spacing:2px;">VAL<span style="color:var(--red);">REHBER</span></p>
+  <p>Valorant oyun rehberi — Haritalar, Ajanlar & Stratejiler</p>
+  <p class="disclaimer">Bu site resmi Riot Games veya VALORANT ile ilgili değildir. VALORANT® Riot Games'in tescilli markası. Tüm bilgiler kamuya açık kaynaklardan derlenerek hazırlanmıştır.</p>
+</footer>
+
+<script>
+// ─── DATA ───
+const maps = [
+  { name:"Ascent", loc:"Venezia, İtalya", status:"comp", sites:2, desc:"Açık orta alan kontrolü kritik. Mid kontrol eden takım genellikle kazanır. Kapılar açılıp kapanabilir.", features:["Açık Mid Alan","Mekanik Kapılar","2 Site","Balanced Harita"], agents:["Jett","Omen","Sova","Killjoy","KAY/O"] },
+  { name:"Haven", loc:"Santorini, Yunanistan", status:"comp", sites:3, desc:"3 site haritası. Savunucular sürekli rotate yapmalı. Saldırıcılar için çok seçenek var.", features:["3 Site Yapısı","Uzun Rotate","Çok Giriş Noktası","Saldırı Favori"], agents:["Yoru","Sova","Omen","Killjoy","Breach"] },
+  { name:"Split", loc:"Tokyo, Japonya", status:"comp", sites:2, desc:"Çok katmanlı ve dar koridor yapısı. Vertical oynamak önemli. Savunma avantajlı harita.", features:["Çok Katmanlı","Dar Koridorlar","Zipline Rotasyon","Savunma Favori"], agents:["Raze","Omen","Viper","Sage","Skye"] },
+  { name:"Icebox", loc:"Alaska, Amerika", status:"comp", sites:2, desc:"Soğuk tema, çok yükseklik farkı. Zipline kullanımı önemli. Site kontrolünde vertical akey.", features:["Yükseklik Farkı","Zipline Bölgeleri","Çok Cover","Vertical Gameplay"], agents:["Viper","Sova","Sage","Chamber","Killjoy"] },
+  { name:"Lotus", loc:"Mumbai, Hindistan", status:"comp", sites:3, desc:"3 site, dönen kapılar ve kırılabilir duvar. Saldırı avantajlı, defender rotasyon zor.", features:["3 Site","Dönen Kapılar","Kırılabilir Duvar","Saldırı Favori"], agents:["Raze","Gekko","Omen","Viper","Vyse"] },
+  { name:"Pearl", loc:"Omega Dünya", status:"comp", sites:2, desc:"Kompakt mid, uzun kanat koridorlar. Ekip koordinasyonu çok önemli. Neredeyse mekanik yok.", features:["Kompakt Mid","Uzun Kanat Yollar","Ekip Odaklı","Balanced Harita"], agents:["Fade","Omen","Cypher","Jett","Sova"] },
+  { name:"Sunset", loc:"Los Angeles, Amerika", status:"comp", sites:2, desc:"LA temalarında, mekanik kapılar var. Mid kontrol çok önemli. Saldırı avantajlı.", features:["Mekanik Kapılar","Yoğun Mid","Post-Plant Kolay","Saldırı Favori"], agents:["Neon","Sova","Omen","Cypher","Breach"] },
+  { name:"Bind", loc:"Rabat, Fare", status:"casual", sites:2, desc:"Teleporter haritası! Hızlı rotasyon yapmak mümkün ama riskli. Mid yok, sol ya da sağ seç.", features:["Teleporter Mekanizması","Mid Yok","Hızlı Rotasyon","Tuzak Dolu"], agents:["Raze","Viper","Brimstone","Gekko","Cypher"] },
+  { name:"Fracture", loc:"New Mexico, Amerika", status:"casual", sites:2, desc:"Savunucu spawn ikiye bölün! Çok giriş noktası, saldırı avantajlı. Utility çok önemli.", features:["Split Savunucu Spawn","Çok Giriş","Saldırı Favori","Utility Kritik"], agents:["Breach","Raze","Brimstone","Fade","Chamber"] },
+  { name:"Breeze", loc:"Bermuda Adaları", status:"casual", sites:2, desc:"En büyük harita! Açık alanlar ve uzun sightline dominant. Cover arkasına saklanmak kritik.", features:["En Büyük Harita","Uzun Sightline","Açık Alan","Long Range Dominant"], agents:["Jett","Sova","Viper","Omen","Chamber"] },
+  { name:"Abyss", loc:"İsveç Kıyıları", status:"casual", sites:2, desc:"Sınırsız harita! Düşebilirsin. Vertical gameplay çok önemli. Death drop tuzakları var.", features:["Sınırsız Harita","Düşme Tehlikesi","Vertical Dominant","Death Drop Plays"], agents:["Jett","Raze","Omen","Sova","Neon"] },
+  { name:"Corrode", loc:"Mont-Saint-Michel", status:"comp", sites:2, sites_count:2, desc:"En yeni harita! Kompakt giriş noktaları ve dar koridor yapısı. Meta henüz oturmuyor.", features:["Yeni Harita","Kompakt Layout","Dar Koridorlar","Evolving Meta"], agents:["Neon","Chamber","Omen","Sova","Fade"] }
+];
+
+const comps = [
+  { map:"Ascent", name:"Klasik Ascent Kurulumu", agents:[
+    { role:"Duelist", name:"Jett", desc:"Mid kontrol ve Operator oynama" },
+    { role:"Controller", name:"Omen", desc:"A site duman, Mid kontrol" },
+    { role:"Initiator", name:"Sova", desc:"Mid drone ve recon dart" },
+    { role:"Initiator", name:"KAY/O", desc:"Flash ve suppress ile giriş" },
+    { role:"Sentinel", name:"Killjoy", desc:"B site kilit, alarm bot" }
+  ]},
+  { map:"Haven", name:"3 Site Agresif Kurulum", agents:[
+    { role:"Duelist", name:"Yoru", desc:"Fake play ve dimensional drift" },
+    { role:"Controller", name:"Omen", desc:"Site duman ve paranoia" },
+    { role:"Initiator", name:"Sova", desc:"3 site arası intel" },
+    { role:"Initiator", name:"Breach", desc:"Rolling thunder ile site clear" },
+    { role:"Sentinel", name:"Killjoy", desc:"Retake kolaylaştırma" }
+  ]},
+  { map:"Split", name:"Dual Controller Kurulum", agents:[
+    { role:"Duelist", name:"Raze", desc:"Dar koridor temizleme, boombot" },
+    { role:"Controller", name:"Omen", desc:"Mid ve A Main duman" },
+    { role:"Controller", name:"Viper", desc:"Wall ile alan deny" },
+    { role:"Initiator", name:"Skye", desc:"Flash ile giriş kolaylaştırma" },
+    { role:"Sentinel", name:"Sage", desc:"Wall ile alan block" }
+  ]},
+  { map:"Icebox", name:"Vertical Kontrol Kurulumu", agents:[
+    { role:"Duelist", name:"Jett", desc:"Yüksek açı alma, Operator" },
+    { role:"Controller", name:"Viper", desc:"Choke point kontrol, post-plant" },
+    { role:"Initiator", name:"Sova", desc:"Vertical intel gathering" },
+    { role:"Sentinel", name:"Sage", desc:"Heal ve wall ile rotasyon" },
+    { role:"Sentinel", name:"Chamber", desc:"Long range tutma, Trademark" }
+  ]},
+  { map:"Lotus", name:"3 Site Saldırı Kurulumu", agents:[
+    { role:"Duelist", name:"Raze", desc:"Rubble temizleme, hızlı rotate" },
+    { role:"Controller", name:"Omen", desc:"Duman ile site giriş" },
+    { role:"Controller", name:"Viper", desc:"Post-plant alan kontrol" },
+    { role:"Initiator", name:"Gekko", desc:"Dizzy ile flash, Reggie ile info" },
+    { role:"Sentinel", name:"Vyse", desc:"Razorvine ile area deny" }
+  ]},
+  { map:"Bind", name:"Double Controller Meta", agents:[
+    { role:"Duelist", name:"Raze", desc:"Boombot ile Hookah/Lamp temizleme" },
+    { role:"Controller", name:"Viper", desc:"B site tam alan kapama" },
+    { role:"Controller", name:"Brimstone", desc:"Site duman + molotov" },
+    { role:"Initiator", name:"Gekko", desc:"Site almak için flash" },
+    { role:"Sentinel", name:"Cypher", desc:"Teleporter kontrolü" }
+  ]}
+];
+
+const tips = [
+  { title:"Communication Önce", desc:"Her roundda takımınla konuşun. Düşman nerede, ne yapacaksınız, kim öne çıkacak. Sessiz kalmak en büyük hata." },
+  { title:"Harita Öğren", desc:"Önce 3-4 haritayı iyi öğren. Her haritanın callout isimlerini, açılarını ve rotasyon yollarını ezberle." },
+  { title:"Utility Kullan", desc:"Silah almak kadar utility almak önemli. Duman, flash ve molotov olmadan site alamazısın." },
+  { title:"Ekonomi Yönet", desc:"Her roundda팀ün paranı düşün. Bazen save round yapmak kazanmak kadar önemlidir. Unnecessary buy yapma." },
+  { title:"Crosshair Pozisyonu", desc:"Crosshair her zaman head level'da olmalı. Bu doğru şot anında zaman kazandırır ve öldürme oranını artırır." },
+  { title:"Harita Rotasyon", desc:"Kompetitif havuzda 7 harita var. Ama casual'da tümünde oynayabilirsin. En iyi 2-3 haritanı mastersanalı yap." },
+  { title:"Role Seç, Master Ol", desc:"Her rolden birini seç ve uzmanlaş. Sova mu? Killjoy mu? Bir ajanı çok iyi oynamak iki ajanı orta oynamaktan iyidir." },
+  { title:"Post-Plant Öğren", desc:"Spike plantlama sonrası nasıl oynayacağını öğren. Post-plant wins çok önemlidir. Timer aşırı düşince defender kazanır." }
+];
+
+// ─── RENDER MAPS ───
+function renderMaps(filter='all') {
+  const grid = document.getElementById('mapsGrid');
+  grid.innerHTML = '';
+  maps.forEach((m,i) => {
+    if(filter === 'comp' && m.status !== 'comp') return;
+    if(filter === 'casual' && m.status !== 'casual') return;
+    if(filter === '3site' && m.sites !== 3) return;
+    const card = document.createElement('div');
+    card.className = 'map-card reveal';
+    card.style.animationDelay = i*0.06+'s';
+    card.innerHTML = `
+      <div class="map-card-header">
+        <span class="map-status ${m.status}">${m.status === 'comp' ? '✓ Kompetitif' : '○ Casual'}</span>
+        <h3>${m.name}</h3>
+        <div class="map-loc">📍 ${m.loc} &nbsp;|&nbsp; ${m.sites} Site</div>
+      </div>
+      <div class="map-card-body">
+        <p class="map-desc">${m.desc}</p>
+        ${m.features.map(f => `<div class="map-feature"><span class="dot"></span>${f}</div>`).join('')}
+        <div class="map-agents">
+          <div class="map-agents-label">📌 Önerilen Ajanlar</div>
+          <div class="agents-row">${m.agents.map(a => `<span class="agent-pill">${a}</span>`).join('')}</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  triggerReveal();
+}
+
+function filterMaps(type) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderMaps(type);
+}
+
+// ─── RENDER COMPS ───
+function renderComps() {
+  const container = document.getElementById('compCards');
+  comps.forEach((c,i) => {
+    const card = document.createElement('div');
+    card.className = 'comp-card reveal';
+    card.innerHTML = `
+      <div class="tag">Takım Kurulumu</div>
+      <h3>${c.name}</h3>
+      <div class="comp-map">🗺️ ${c.map}</div>
+      ${c.agents.map(a => `
+        <div class="comp-row">
+          <span class="comp-role-tag ${a.role.toLowerCase()}">${a.role}</span>
+          <div>
+            <div class="comp-agent-name">${a.name}</div>
+            <div class="comp-agent-desc">${a.desc}</div>
+          </div>
+        </div>
+      `).join('')}`;
+    container.appendChild(card);
+  });
+}
+
+// ─── RENDER TIPS ───
+function renderTips() {
+  const container = document.getElementById('tipsGrid');
+  tips.forEach((t,i) => {
+    const card = document.createElement('div');
+    card.className = 'tip-card reveal';
+    card.innerHTML = `
+      <div class="tip-num">0${i+1}</div>
+      <h3>${t.title}</h3>
+      <p>${t.desc}</p>`;
+    container.appendChild(card);
+  });
+}
+
+// ─── SCROLL REVEAL ───
+function triggerReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold:0.1 });
+  document.querySelectorAll('.reveal').forEach(el => {
+    el.classList.remove('visible');
+    observer.observe(el);
+  });
+}
+
+// ─── INIT ───
+renderMaps();
+renderComps();
+renderTips();
+triggerReveal();
+
+// Nav scroll hide
+let lastY = 0;
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  if(window.scrollY > lastY && window.scrollY > 80) nav.style.transform = 'translateY(-100%)';
+  else nav.style.transform = 'translateY(0)';
+  lastY = window.scrollY;
+});
+</script>
+</body>
+</html>
