@@ -1,908 +1,1256 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>VALORANT REHBER | Harita & Ajan Rehberi</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fen Lisesi 11 - Görsel Eğitim</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  :root {
-    --red: #ff4454;
-    --red-glow: rgba(255,68,84,0.35);
-    --gold: #f5c842;
-    --dark-bg: #0a0b0d;
-    --card-bg: #111214;
-    --card-border: #1e2026;
-    --text: #c8ccd4;
-    --text-bright: #eef0f4;
-    --accent-blue: #00d4ff;
-    --accent-green: #39ff8e;
-  }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+        .app {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-  html { scroll-behavior:smooth; }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
 
-  body {
-    background: var(--dark-bg);
-    font-family: 'Rajdhani', sans-serif;
-    color: var(--text);
-    min-height:100vh;
-    overflow-x:hidden;
-  }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
 
-  /* ─── HERO ─── */
-  .hero {
-    position:relative;
-    width:100%;
-    height:100vh;
-    min-height:500px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    background: linear-gradient(180deg, #0a0b0d 0%, #0d1117 40%, #0a0b0d 100%);
-    overflow:hidden;
-  }
-  .hero::before {
-    content:'';
-    position:absolute;
-    inset:0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255,68,84,0.08) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,212,255,0.05) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 50% at 80% 70%, rgba(57,255,142,0.04) 0%, transparent 60%);
-    pointer-events:none;
-  }
-  .hero-grid {
-    position:absolute;
-    inset:0;
-    background-image:
-      linear-gradient(rgba(255,68,84,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,68,84,0.03) 1px, transparent 1px);
-    background-size:60px 60px;
-    pointer-events:none;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 70%);
-  }
-  .hero-content { position:relative; z-index:2; padding:0 20px; }
-  .hero-badge {
-    display:inline-block;
-    border:1px solid var(--red);
-    color:var(--red);
-    font-family:'Orbitron',sans-serif;
-    font-size:11px;
-    letter-spacing:3px;
-    text-transform:uppercase;
-    padding:6px 18px;
-    margin-bottom:24px;
-    border-radius:2px;
-  }
-  .hero h1 {
-    font-family:'Orbitron',sans-serif;
-    font-size:clamp(2.4rem,6vw,4.2rem);
-    font-weight:700;
-    color:#fff;
-    line-height:1.1;
-    letter-spacing:-1px;
-  }
-  .hero h1 span { color:var(--red); }
-  .hero-sub {
-    font-size:clamp(1rem,2vw,1.2rem);
-    color:var(--text);
-    margin-top:18px;
-    max-width:600px;
-    margin-left:auto;
-    margin-right:auto;
-    line-height:1.6;
-    font-weight:500;
-  }
-  .hero-cta {
-    margin-top:36px;
-    display:flex;
-    gap:14px;
-    justify-content:center;
-    flex-wrap:wrap;
-  }
-  .btn-primary {
-    background:var(--red);
-    color:#fff;
-    border:none;
-    padding:13px 32px;
-    font-family:'Rajdhani',sans-serif;
-    font-size:1rem;
-    font-weight:700;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    cursor:pointer;
-    text-decoration:none;
-    border-radius:3px;
-    transition: box-shadow .3s, transform .2s;
-  }
-  .btn-primary:hover { box-shadow:0 0 24px var(--red-glow); transform:translateY(-2px); }
-  .btn-outline {
-    background:transparent;
-    color:var(--text-bright);
-    border:1px solid var(--card-border);
-    padding:13px 32px;
-    font-family:'Rajdhani',sans-serif;
-    font-size:1rem;
-    font-weight:600;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    cursor:pointer;
-    text-decoration:none;
-    border-radius:3px;
-    transition: border-color .3s, color .3s;
-  }
-  .btn-outline:hover { border-color:var(--red); color:var(--red); }
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
 
-  /* ─── NAV ─── */
-  nav {
-    position:fixed;
-    top:0; left:0; right:0;
-    z-index:100;
-    background:rgba(10,11,13,0.85);
-    backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--card-border);
-    padding:14px 0;
-    transition:transform .3s;
-  }
-  .nav-inner {
-    max-width:1200px;
-    margin:0 auto;
-    padding:0 24px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .nav-logo {
-    font-family:'Orbitron',sans-serif;
-    font-size:1rem;
-    color:#fff;
-    font-weight:700;
-    letter-spacing:2px;
-    text-decoration:none;
-  }
-  .nav-logo span { color:var(--red); }
-  .nav-links { display:flex; gap:28px; list-style:none; }
-  .nav-links a {
-    color:var(--text);
-    text-decoration:none;
-    font-size:.85rem;
-    font-weight:600;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    transition:color .2s;
-  }
-  .nav-links a:hover { color:var(--red); }
+        .dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
 
-  /* ─── SECTION COMMON ─── */
-  section { padding:80px 24px; }
-  .section-inner { max-width:1200px; margin:0 auto; }
-  .section-header { text-align:center; margin-bottom:56px; }
-  .section-header h2 {
-    font-family:'Oswald',sans-serif;
-    font-size:clamp(1.8rem,4vw,2.6rem);
-    color:#fff;
-    font-weight:600;
-    text-transform:uppercase;
-    letter-spacing:2px;
-  }
-  .section-header h2 span { color:var(--red); }
-  .section-header p { color:var(--text); margin-top:10px; font-size:1rem; font-weight:500; }
-  .tag {
-    display:inline-block;
-    font-family:'Orbitron',sans-serif;
-    font-size:9px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--red);
-    margin-bottom:10px;
-  }
+        .dark-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
 
-  /* ─── META INFO BAR ─── */
-  .meta-bar {
-    background:var(--card-bg);
-    border-top:1px solid var(--card-border);
-    border-bottom:1px solid var(--card-border);
-    padding:28px 24px;
-  }
-  .meta-bar-inner {
-    max-width:1200px;
-    margin:0 auto;
-    display:flex;
-    gap:40px;
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-  .meta-stat {
-    text-align:center;
-    flex:1;
-    min-width:140px;
-  }
-  .meta-stat .num {
-    font-family:'Orbitron',sans-serif;
-    font-size:2rem;
-    font-weight:700;
-    color:var(--red);
-  }
-  .meta-stat .label { font-size:.8rem; color:var(--text); letter-spacing:1px; text-transform:uppercase; margin-top:4px; }
+        .dark-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
 
-  /* ─── ROLES SECTION ─── */
-  .roles-grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
-    gap:18px;
-  }
-  .role-card {
-    background:var(--card-bg);
-    border:1px solid var(--card-border);
-    border-radius:6px;
-    padding:28px 22px;
-    transition: border-color .3s, transform .2s;
-  }
-  .role-card:hover { border-color:var(--red); transform:translateY(-3px); }
-  .role-icon { font-size:1.8rem; margin-bottom:12px; }
-  .role-card h3 {
-    font-family:'Oswald',sans-serif;
-    font-size:1.1rem;
-    color:#fff;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    margin-bottom:8px;
-  }
-  .role-card p { font-size:.88rem; line-height:1.5; color:var(--text); }
-  .role-card .agents-list {
-    margin-top:14px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px;
-  }
-  .agent-pill {
-    background:rgba(255,68,84,0.1);
-    border:1px solid rgba(255,68,84,0.25);
-    color:var(--red);
-    font-size:.75rem;
-    font-weight:600;
-    padding:3px 10px;
-    border-radius:3px;
-    letter-spacing:.5px;
-  }
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
 
-  /* ─── MAP FILTER ─── */
-  .filter-bar {
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    justify-content:center;
-    margin-bottom:40px;
-  }
-  .filter-btn {
-    background:transparent;
-    border:1px solid var(--card-border);
-    color:var(--text);
-    padding:8px 18px;
-    font-family:'Rajdhani',sans-serif;
-    font-size:.85rem;
-    font-weight:600;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    cursor:pointer;
-    border-radius:3px;
-    transition: all .25s;
-  }
-  .filter-btn:hover, .filter-btn.active {
-    background:var(--red);
-    border-color:var(--red);
-    color:#fff;
-  }
+        .subject-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
 
-  /* ─── MAP CARDS ─── */
-  .maps-grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px,1fr));
-    gap:20px;
-  }
-  .map-card {
-    background:var(--card-bg);
-    border:1px solid var(--card-border);
-    border-radius:8px;
-    overflow:hidden;
-    transition: border-color .3s, transform .2s;
-    cursor:pointer;
-  }
-  .map-card:hover { border-color:var(--red); transform:translateY(-4px); }
-  .map-card-header {
-    position:relative;
-    padding:28px 24px 20px;
-    background: linear-gradient(135deg, rgba(255,68,84,0.06) 0%, transparent 60%);
-  }
-  .map-status {
-    position:absolute;
-    top:16px; right:16px;
-    font-size:.7rem;
-    font-weight:700;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    padding:3px 10px;
-    border-radius:3px;
-  }
-  .map-status.comp { background:rgba(57,255,142,0.12); color:var(--accent-green); border:1px solid rgba(57,255,142,0.25); }
-  .map-status.casual { background:rgba(0,212,255,0.12); color:var(--accent-blue); border:1px solid rgba(0,212,255,0.25); }
-  .map-card-header h3 {
-    font-family:'Oswald',sans-serif;
-    font-size:1.5rem;
-    color:#fff;
-    text-transform:uppercase;
-    letter-spacing:2px;
-  }
-  .map-card-header .map-loc {
-    font-size:.78rem;
-    color:var(--text);
-    margin-top:4px;
-    letter-spacing:.5px;
-  }
-  .map-card-body { padding:0 24px 22px; }
-  .map-desc { font-size:.88rem; color:var(--text); line-height:1.55; margin-bottom:16px; }
-  .map-feature {
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:.78rem;
-    color:var(--text);
-    margin-bottom:6px;
-  }
-  .map-feature .dot {
-    width:6px; height:6px;
-    background:var(--red);
-    border-radius:50%;
-    flex-shrink:0;
-  }
-  .map-agents {
-    margin-top:18px;
-    padding-top:16px;
-    border-top:1px solid var(--card-border);
-  }
-  .map-agents-label { font-size:.72rem; color:var(--text); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
-  .map-agents .agents-row { display:flex; flex-wrap:wrap; gap:6px; }
+        .subject-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
 
-  /* ─── TEAM COMP SECTION ─── */
-  .comp-cards {
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
-    gap:20px;
-  }
-  .comp-card {
-    background:var(--card-bg);
-    border:1px solid var(--card-border);
-    border-radius:8px;
-    padding:26px 22px;
-    transition: border-color .3s;
-  }
-  .comp-card:hover { border-color:var(--gold); }
-  .comp-card h3 {
-    font-family:'Oswald',sans-serif;
-    font-size:1.15rem;
-    color:#fff;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-    margin-bottom:6px;
-  }
-  .comp-card .comp-map { font-size:.75rem; color:var(--gold); letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
-  .comp-row {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:10px;
-  }
-  .comp-role-tag {
-    font-size:.65rem;
-    font-weight:700;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    padding:3px 8px;
-    border-radius:2px;
-    min-width:72px;
-    text-align:center;
-    flex-shrink:0;
-  }
-  .comp-role-tag.duelist { background:rgba(255,68,84,0.15); color:var(--red); border:1px solid rgba(255,68,84,0.25); }
-  .comp-role-tag.controller { background:rgba(0,212,255,0.12); color:var(--accent-blue); border:1px solid rgba(0,212,255,0.2); }
-  .comp-role-tag.initiator { background:rgba(245,200,66,0.12); color:var(--gold); border:1px solid rgba(245,200,66,0.25); }
-  .comp-role-tag.sentinel { background:rgba(57,255,142,0.12); color:var(--accent-green); border:1px solid rgba(57,255,142,0.2); }
-  .comp-agent-name { font-size:.9rem; color:#fff; font-weight:600; }
-  .comp-agent-desc { font-size:.78rem; color:var(--text); }
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--color1), var(--color2));
+        }
 
-  /* ─── TIPS SECTION ─── */
-  .tips-grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px,1fr));
-    gap:18px;
-  }
-  .tip-card {
-    background:var(--card-bg);
-    border:1px solid var(--card-border);
-    border-radius:8px;
-    padding:28px 22px;
-    position:relative;
-    overflow:hidden;
-    transition: transform .2s;
-  }
-  .tip-card:hover { transform:translateY(-3px); }
-  .tip-card::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:3px;
-    background: linear-gradient(90deg, var(--red), var(--accent-blue));
-  }
-  .tip-num {
-    font-family:'Orbitron',sans-serif;
-    font-size:2rem;
-    font-weight:700;
-    color:rgba(255,68,84,0.15);
-    line-height:1;
-    margin-bottom:14px;
-  }
-  .tip-card h3 {
-    font-family:'Oswald',sans-serif;
-    font-size:1.05rem;
-    color:#fff;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    margin-bottom:8px;
-  }
-  .tip-card p { font-size:.87rem; color:var(--text); line-height:1.6; }
+        .subject-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
 
-  /* ─── TIER TABLE ─── */
-  .tier-table { width:100%; border-radius:8px; overflow:hidden; border:1px solid var(--card-border); }
-  .tier-row {
-    display:flex;
-    align-items:center;
-    border-bottom:1px solid var(--card-border);
-    min-height:60px;
-  }
-  .tier-row:last-child { border-bottom:none; }
-  .tier-label {
-    width:70px;
-    min-width:70px;
-    text-align:center;
-    font-family:'Orbitron',sans-serif;
-    font-size:1.1rem;
-    font-weight:700;
-    height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .tier-label.s { background:rgba(255,68,84,0.18); color:var(--red); }
-  .tier-label.a { background:rgba(245,200,66,0.15); color:var(--gold); }
-  .tier-label.b { background:rgba(0,212,255,0.12); color:var(--accent-blue); }
-  .tier-agents {
-    flex:1;
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    padding:14px 18px;
-    background:var(--card-bg);
-  }
-  .tier-agent {
-    font-size:.82rem;
-    font-weight:600;
-    color:var(--text-bright);
-    background:rgba(255,255,255,0.05);
-    border:1px solid var(--card-border);
-    padding:4px 12px;
-    border-radius:3px;
-  }
+        .subject-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
 
-  /* ─── FOOTER ─── */
-  footer {
-    background:var(--card-bg);
-    border-top:1px solid var(--card-border);
-    text-align:center;
-    padding:40px 24px;
-  }
-  footer p { font-size:.78rem; color:var(--text); letter-spacing:.5px; }
-  footer .disclaimer { margin-top:8px; font-size:.7rem; color:#444; max-width:600px; margin-left:auto; margin-right:auto; line-height:1.5; }
+        .subject-description {
+            color: #666;
+            font-size: 0.9em;
+        }
 
-  /* ─── RESPONSIVE ─── */
-  @media(max-width:600px){
-    .nav-links { display:none; }
-    .maps-grid, .comp-cards { grid-template-columns:1fr; }
-    .meta-bar-inner { gap:20px; }
-    section { padding:60px 18px; }
-  }
+        .content-view {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
 
-  /* ─── SCROLL REVEAL ─── */
-  .reveal { opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease; }
-  .reveal.visible { opacity:1; transform:translateY(0); }
-</style>
+        .dark-mode .content-view,
+        .dark-mode .subject-card,
+        .dark-mode .topic-card,
+        .dark-mode .visual-content {
+            background: #2d3748;
+            color: #e2e8f0;
+        }
+
+        .dark-mode .subject-title,
+        .dark-mode .topic-title {
+            color: #e2e8f0;
+        }
+
+        .dark-mode .subject-description,
+        .dark-mode .topic-subtitle {
+            color: #a0aec0;
+        }
+
+        .back-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .topics-list {
+            display: grid;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .topic-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--color1);
+        }
+
+        .topic-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .topic-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .topic-subtitle {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .visual-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .visual-section {
+            margin-bottom: 30px;
+        }
+
+        .visual-section h3 {
+            color: var(--color1);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--color1);
+        }
+
+        .diagram {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+            border: 3px solid var(--color1);
+        }
+
+        .formula-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .important-box {
+            background: #d1ecf1;
+            border-left: 5px solid #0dcaf0;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        .tip-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        .concept-map {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .concept-node {
+            background: linear-gradient(135deg, var(--color1), var(--color2));
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            background: var(--color1);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '↓';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            color: var(--color1);
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .info-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .yks-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        .memory-technique {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            color: #333;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .subject-icon {
+                font-size: 3em;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div id="root"></div>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-inner">
-    <a href="#" class="nav-logo">VAL<span>REHBER</span></a>
-    <ul class="nav-links">
-      <li><a href="#roles">Roller</a></li>
-      <li><a href="#maps">Haritalar</a></li>
-      <li><a href="#comps">Takım Kurma</a></li>
-      <li><a href="#tips">İpuçları</a></li>
-      <li><a href="#tiers">Tier List</a></li>
-    </ul>
-  </div>
-</nav>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-content">
-    <div class="hero-badge">2025 Güncel Meta Rehberi</div>
-    <h1>VALORANT'A<br/><span>USTACA</span> BAŞLA</h1>
-    <p class="hero-sub">Tüm 12 harita için en iyi ajanları, takım kurma stratejilerini ve profesyonel ipuçlarını öğren. Rankedde yüksel, oyuna egemen ol.</p>
-    <div class="hero-cta">
-      <a href="#maps" class="btn-primary">Haritaları Incela</a>
-      <a href="#tips" class="btn-outline">Başlangıç İpuçları</a>
-    </div>
-  </div>
-</section>
+        const subjects = [
+            {
+                id: 'matematik',
+                name: 'Matematik',
+                icon: '📐',
+                color1: '#667eea',
+                color2: '#764ba2',
+                description: 'Fonksiyonlar, Polinomlar, Trigonometri ve daha fazlası',
+                topics: [
+                    { id: 1, title: 'Fonksiyonlar', subtitle: 'Tanım, Grafik, Özellikler' },
+                    { id: 2, title: 'Polinomlar', subtitle: 'İşlemler, Çarpanlara Ayırma' },
+                    { id: 3, title: '2. Derece Denklemler', subtitle: 'Çözüm Yöntemleri, Diskriminant' },
+                    { id: 4, title: 'Trigonometri', subtitle: 'Trigonometrik Fonksiyonlar, Özdeşlikler' },
+                    { id: 5, title: 'Analitik Geometri', subtitle: 'Doğru, Çember, Konikler' },
+                    { id: 6, title: 'Diziler', subtitle: 'Aritmetik ve Geometrik Diziler' },
+                    { id: 7, title: 'Limit ve Süreklilik', subtitle: 'Limit Kavramı, Belirsizlikler' },
+                ]
+            },
+            {
+                id: 'fizik',
+                name: 'Fizik',
+                icon: '⚛️',
+                color1: '#f093fb',
+                color2: '#f5576c',
+                description: 'Kuvvet-Hareket, Enerji, Elektrik, Manyetizma',
+                topics: [
+                    { id: 1, title: 'Elektrik ve Manyetizma', subtitle: 'Elektrik Yük, Alan, Potansiyel' },
+                    { id: 2, title: 'Kuvvet ve Hareket', subtitle: "Newton Yasaları, Momentum" },
+                    { id: 3, title: 'Enerji', subtitle: 'İş, Güç, Mekanik Enerji' },
+                    { id: 4, title: 'Tork', subtitle: 'Dönme Hareketi, Açısal Momentum' },
+                    { id: 5, title: 'Basit Harmonik Hareket', subtitle: 'Yay, Sarkaç, Dalga' },
+                    { id: 6, title: 'Elektrik Devreleri', subtitle: 'Ohm Yasası, Kirchhoff Kuralları' },
+                ]
+            },
+            {
+                id: 'kimya',
+                name: 'Kimya',
+                icon: '🧪',
+                color1: '#4facfe',
+                color2: '#00f2fe',
+                description: 'Gazlar, Çözeltiler, Tepkimeler, Kimyasal Denge',
+                topics: [
+                    { id: 1, title: 'Gazlar', subtitle: 'Gaz Yasaları, İdeal Gaz Denklemi' },
+                    { id: 2, title: 'Çözeltiler', subtitle: 'Derişim, Çözünürlük, Koligatif Özellikler' },
+                    { id: 3, title: 'Tepkime Hızı ve Denge', subtitle: 'Hız Faktörleri, Denge Sabiti' },
+                    { id: 4, title: 'Asit-Baz Dengesi', subtitle: 'pH, Tampon Çözeltiler' },
+                    { id: 5, title: 'Çökelme Tepkimeleri', subtitle: 'Çözünürlük Çarpımı' },
+                    { id: 6, title: 'Elektrokimya', subtitle: 'Redoks, Pil, Elektroliz' },
+                ]
+            },
+            {
+                id: 'biyoloji',
+                name: 'Biyoloji',
+                icon: '🧬',
+                color1: '#43e97b',
+                color2: '#38f9d7',
+                description: 'Sistemler, Hücre, Genetik, Ekoloji',
+                topics: [
+                    { id: 1, title: 'Sinir Sistemi', subtitle: 'Nöron, Sinaps, MSS, SSS' },
+                    { id: 2, title: 'Endokrin Sistem', subtitle: 'Hormonlar, Bezler' },
+                    { id: 3, title: 'Dolaşım Sistemi', subtitle: 'Kalp, Damarlar, Kan' },
+                    { id: 4, title: 'Solunum Sistemi', subtitle: 'Akciğerler, Gaz Alışverişi' },
+                    { id: 5, title: 'Boşaltım Sistemi', subtitle: 'Böbrek, Nefron' },
+                    { id: 6, title: 'Üreme Sistemi', subtitle: 'Eşeyli ve Eşeysiz Üreme' },
+                    { id: 7, title: 'Destek ve Hareket', subtitle: 'İskelet, Kas Sistemi' },
+                ]
+            },
+            {
+                id: 'edebiyat',
+                name: 'Türk Dili ve Edebiyatı',
+                icon: '📚',
+                color1: '#fa709a',
+                color2: '#fee140',
+                description: 'Edebi Akımlar, Dönemler, Yazarlar, Eserler',
+                topics: [
+                    { id: 1, title: 'Tanzimat Dönemi', subtitle: 'Yazarlar, Eserler, Özellikler' },
+                    { id: 2, title: 'Servet-i Fünun', subtitle: 'Akımın Özellikleri, Temsilcileri' },
+                    { id: 3, title: 'Fecr-i Ati', subtitle: 'Sanat Anlayışı, Yazarlar' },
+                    { id: 4, title: 'Milli Edebiyat', subtitle: 'İlkeler, Şairler, Yazarlar' },
+                    { id: 5, title: 'Cumhuriyet Dönemi Şiiri', subtitle: 'Akımlar, Şairler' },
+                    { id: 6, title: 'Cumhuriyet Dönemi Romanı', subtitle: 'Yazarlar, Eserler' },
+                    { id: 7, title: 'Tiyatro ve Deneme', subtitle: 'Türk Tiyatrosu, Denemeciler' },
+                ]
+            },
+            {
+                id: 'cografya',
+                name: 'Coğrafya',
+                icon: '🌍',
+                color1: '#ffecd2',
+                color2: '#fcb69f',
+                description: 'Türkiye Coğrafyası, Ekonomi, Nüfus, Yer Şekilleri',
+                topics: [
+                    { id: 1, title: 'Türkiye\'nin Fiziki Coğrafyası', subtitle: 'Yer Şekilleri, İklim' },
+                    { id: 2, title: 'Türkiye\'nin Beşeri Coğrafyası', subtitle: 'Nüfus, Yerleşme' },
+                    { id: 3, title: 'Ekonomik Coğrafya', subtitle: 'Tarım, Sanayi, Ticaret' },
+                    { id: 4, title: 'Doğal Kaynaklar', subtitle: 'Madenler, Enerji' },
+                    { id: 5, title: 'Çevre ve Toplum', subtitle: 'Çevre Sorunları, Sürdürülebilirlik' },
+                    { id: 6, title: 'Bölgeler Coğrafyası', subtitle: 'Türkiye\'nin Coğrafi Bölgeleri' },
+                ]
+            },
+            {
+                id: 'tarih',
+                name: 'Tarih',
+                icon: '📜',
+                color1: '#ff9a56',
+                color2: '#ff6a88',
+                description: 'Osmanlı, İnkılaplar, Yakın Dönem Tarih',
+                topics: [
+                    { id: 1, title: 'Osmanlı Devleti\'nin Duraklama Dönemi', subtitle: 'Sebepleri, Gelişmeler' },
+                    { id: 2, title: 'Osmanlı Devleti\'nin Gerileme Dönemi', subtitle: 'Savaşlar, Antlaşmalar' },
+                    { id: 3, title: 'Islahat Hareketleri', subtitle: 'Lale Devri, Tanzimat, Meşrutiyet' },
+                    { id: 4, title: 'XX. Yüzyıl Başlarında Osmanlı', subtitle: 'II. Abdülhamit, Balkan Savaşları' },
+                    { id: 5, title: 'Birinci Dünya Savaşı', subtitle: 'Osmanlı\'nın Savaşa Girişi, Cepheler' },
+                    { id: 6, title: 'Milli Mücadele', subtitle: 'Kurtuluş Savaşı, Kongreler' },
+                    { id: 7, title: 'Atatürk İlkeleri ve İnkılap Tarihi', subtitle: 'Devrimler, İlkeler' },
+                ]
+            }
+        ];
 
-<!-- META BAR -->
-<div class="meta-bar">
-  <div class="meta-bar-inner">
-    <div class="meta-stat"><div class="num">12</div><div class="label">Toplam Harita</div></div>
-    <div class="meta-stat"><div class="num">7</div><div class="label">Kompetitif Havuz</div></div>
-    <div class="meta-stat"><div class="num">28</div><div class="label">Toplam Ajan</div></div>
-    <div class="meta-stat"><div class="num">4</div><div class="label">Ajan Rolü</div></div>
-  </div>
-</div>
+        const getTopicContent = (subjectId, topicId) => {
+            const contentMap = {
+                'matematik': {
+                    1: {
+                        title: 'Fonksiyonlar',
+                        sections: [
+                            {
+                                title: '📊 Fonksiyon Tanımı ve Gösterimi',
+                                content: 'Bir A kümesinin her elemanını B kümesinin yalnız bir elemanı ile eşleştiren kurala fonksiyon denir.',
+                                diagram: `
+                                    <div style="display: flex; justify-content: space-around; align-items: center; padding: 20px;">
+                                        <div style="background: #667eea; color: white; padding: 20px; border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">A Kümesi</div>
+                                        <div style="font-size: 3em;">→</div>
+                                        <div style="background: #764ba2; color: white; padding: 20px; border-radius: 50%; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 1.5em;">B Kümesi</div>
+                                    </div>
+                                    <div style="text-align: center; margin-top: 20px; font-size: 1.2em; font-weight: bold;">f: A → B</div>
+                                `,
+                                formula: 'f(x) = y şeklinde gösterilir',
+                                important: 'Her x değeri için sadece bir y değeri olmalıdır!',
+                                yks: 'YKS\'de fonksiyon tanımı ve birebir-örten kavramları sıkça sorulur'
+                            },
+                            {
+                                title: '🎯 Fonksiyon Türleri',
+                                concepts: ['Birebir Fonksiyon', 'Örten Fonksiyon', 'Birebirörten (Bijektif)', 'Sabit Fonksiyon', 'Birim Fonksiyon'],
+                                flowSteps: [
+                                    'Her x farklı y\'ye gidiyorsa → BİREBİR',
+                                    'Her y değeri kullanılıyorsa → ÖRTEN',
+                                    'Hem birebir hem örten → BİJEKTİF',
+                                    'f(x) = c (sabit) → SABİT FONKSİYON'
+                                ],
+                                tip: '💡 Grafik üzerinde yatay doğru testi: Grafiği birden fazla noktada kesiyorsa birebir değildir!',
+                                warning: '⚠️ TUZAK: Tanım kümesi ile değer kümesini karıştırmayın!'
+                            },
+                            {
+                                title: '📈 Özel Fonksiyonlar',
+                                infoCards: [
+                                    { title: 'Doğrusal Fonksiyon', value: 'f(x) = ax + b' },
+                                    { title: 'Parabolik Fonksiyon', value: 'f(x) = ax² + bx + c' },
+                                    { title: 'Hiperbolik Fonksiyon', value: 'f(x) = a/x' },
+                                    { title: 'Üstel Fonksiyon', value: 'f(x) = aˣ' },
+                                    { title: 'Logaritmik Fonksiyon', value: 'f(x) = logₐx' },
+                                ],
+                                memory: '🧠 HAFIZA TEKNİĞİ: "DoParHiÜsLo" → Doğrusal, Parabolik, Hiperbolik, Üstel, Logaritmik'
+                            }
+                        ]
+                    },
+                    2: {
+                        title: 'Polinomlar',
+                        sections: [
+                            {
+                                title: '🔢 Polinom Tanımı',
+                                content: 'P(x) = aₙxⁿ + aₙ₋₁xⁿ⁻¹ + ... + a₁x + a₀ şeklindeki ifadelere polinom denir.',
+                                formula: 'P(x) = aₙxⁿ + aₙ₋₁xⁿ⁻¹ + ... + a₁x + a₀',
+                                important: 'En büyük üs derecesini belirler. aₙ ≠ 0 olmalıdır!',
+                                concepts: ['Derece (n)', 'Katsayılar (aᵢ)', 'Sabit Terim (a₀)', 'Baş Katsayı (aₙ)'],
+                                yks: 'Polinom derecesi ve işlemleri her yıl çıkar'
+                            },
+                            {
+                                title: '➕➖ Polinom İşlemleri',
+                                flowSteps: [
+                                    'Toplama/Çıkarma: Aynı dereceli terimleri topla',
+                                    'Çarpma: Her terimi her terimle çarp',
+                                    'Bölme: Uzun bölme veya Horner yöntemi',
+                                    'Kalan Teoremi: P(x)/(x-a) → Kalan = P(a)'
+                                ],
+                                tip: '💡 Hızlı çözüm için Horner şeması kullan!',
+                                memory: '🧠 Kalan bulmak için: "x yerine kök yaz"'
+                            },
+                            {
+                                title: '🎯 Çarpanlara Ayırma',
+                                infoCards: [
+                                    { title: 'Ortak Çarpan', value: 'ax + ay = a(x+y)' },
+                                    { title: 'İki Kare Farkı', value: 'a² - b² = (a-b)(a+b)' },
+                                    { title: 'Tam Kare', value: 'a² ± 2ab + b²' },
+                                    { title: 'İki Küp Toplamı', value: 'a³ + b³ = (a+b)(a²-ab+b²)' },
+                                ],
+                                warning: '⚠️ İki küp farkında işaretlere dikkat! a³ - b³ = (a-b)(a²+ab+b²)'
+                            }
+                        ]
+                    },
+                    3: {
+                        title: '2. Derece Denklemler',
+                        sections: [
+                            {
+                                title: '📐 Genel Form ve Çözüm',
+                                formula: 'ax² + bx + c = 0 (a ≠ 0)',
+                                diagram: `
+                                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 30px; border-radius: 15px; text-align: center;">
+                                        <h3 style="margin-bottom: 20px;">Çözüm Formülü</h3>
+                                        <div style="font-size: 1.5em; font-weight: bold;">x = (-b ± √Δ) / 2a</div>
+                                        <div style="margin-top: 20px; font-size: 1.2em;">Δ = b² - 4ac</div>
+                                    </div>
+                                `,
+                                important: 'Diskriminant (Δ) köklerin durumunu belirler!',
+                                yks: 'Diskriminant ve kök bağıntıları %100 çıkar'
+                            },
+                            {
+                                title: '🔍 Diskriminant (Δ) Analizi',
+                                flowSteps: [
+                                    'Δ > 0 → İki farklı gerçek kök',
+                                    'Δ = 0 → İki eşit gerçek kök (çakışık)',
+                                    'Δ < 0 → Gerçek kök yok (karmaşık kökler)'
+                                ],
+                                memory: '🧠 PozİN: Pozitif → İki kök, Negatif → Kök yok',
+                                tip: '💡 Δ tam kare ise kökler rasyoneldir!'
+                            },
+                            {
+                                title: '🎯 Kök-Katsayı Bağıntıları',
+                                infoCards: [
+                                    { title: 'Kökler Toplamı', value: 'x₁ + x₂ = -b/a' },
+                                    { title: 'Kökler Çarpımı', value: 'x₁ · x₂ = c/a' },
+                                    { title: 'Kareler Toplamı', value: 'x₁² + x₂² = (x₁+x₂)² - 2x₁x₂' },
+                                    { title: 'Denklem Yazma', value: 'x² - (x₁+x₂)x + x₁x₂ = 0' },
+                                ],
+                                warning: '⚠️ TUZAK: Kökler toplamında eksi işareti var!'
+                            }
+                        ]
+                    }
+                },
+                'fizik': {
+                    1: {
+                        title: 'Elektrik ve Manyetizma',
+                        sections: [
+                            {
+                                title: '⚡ Elektrik Yükü',
+                                content: 'Maddenin temel özelliklerinden biridir. İki tür yük vardır: Pozitif (+) ve Negatif (-)',
+                                diagram: `
+                                    <div style="display: flex; justify-content: space-around; padding: 20px;">
+                                        <div style="background: #f44336; color: white; padding: 30px; border-radius: 50%; font-size: 2em; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+                                            <div>+<br/>Proton</div>
+                                        </div>
+                                        <div style="background: #2196f3; color: white; padding: 30px; border-radius: 50%; font-size: 2em; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center;">
+                                            <div>-<br/>Elektron</div>
+                                        </div>
+                                    </div>
+                                `,
+                                important: 'Aynı işaretli yükler itişir, zıt işaretli yükler çekilir',
+                                formula: 'e = 1.6 × 10⁻¹⁹ C (Elementer yük)',
+                                yks: 'Coulomb yasası ve elektrik alan sorularına çok dikkat!'
+                            },
+                            {
+                                title: '⚡ Coulomb Yasası',
+                                formula: 'F = k · |q₁ · q₂| / r²',
+                                concepts: ['k = 9×10⁹ N·m²/C² (Coulomb sabiti)', 'q₁, q₂: Yük miktarları', 'r: Yükler arası uzaklık'],
+                                flowSteps: [
+                                    'Yük miktarları arttıkça kuvvet artar',
+                                    'Uzaklık arttıkça kuvvet azalır (ters kare)',
+                                    'Yükler arası uzaklık 2 katına çıkarsa, kuvvet 4\'te 1\'e düşer'
+                                ],
+                                memory: '🧠 "Yük çok, uzak yok!" - Yük artar kuvvet artar, uzaklık artar kuvvet azalır',
+                                tip: '💡 r yarıya inerse F 4 katına çıkar!'
+                            },
+                            {
+                                title: '🌐 Elektrik Alan',
+                                formula: 'E = F / q = k · Q / r²',
+                                diagram: `
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="background: #f093fb; color: white; padding: 20px; border-radius: 15px; display: inline-block; margin-bottom: 20px;">
+                                            <div style="font-size: 2em; margin-bottom: 10px;">+Q</div>
+                                            <div>Kaynak Yük</div>
+                                        </div>
+                                        <div style="font-size: 2em; margin: 20px;">↓ Alan Çizgileri ↓</div>
+                                        <div style="display: flex; justify-content: center; gap: 20px;">
+                                            <div>→</div>
+                                            <div>→</div>
+                                            <div>→</div>
+                                            <div>→</div>
+                                            <div>→</div>
+                                        </div>
+                                    </div>
+                                `,
+                                important: 'Elektrik alan bir vektör büyüklüktür. Yönü: (+) yükten çıkar, (-) yüke girer',
+                                infoCards: [
+                                    { title: 'Birim', value: 'N/C veya V/m' },
+                                    { title: 'Yön', value: 'Pozitif yükün hissedeceği kuvvet yönü' },
+                                    { title: 'Süperpozisyon', value: 'Alanlar vektörel toplanır' },
+                                ],
+                                warning: '⚠️ Alan çizgileri asla kesişmez!'
+                            },
+                            {
+                                title: '🔋 Elektrik Potansiyel',
+                                formula: 'V = k · Q / r',
+                                content: 'Bir noktaya birim yükü sonsuzdan getirmek için yapılan iştir.',
+                                infoCards: [
+                                    { title: 'Birim', value: 'Volt (V)' },
+                                    { title: 'Skaler', value: 'Yönü yoktur, cebirsel toplanır' },
+                                    { title: 'Referans', value: 'Sonsuz noktada V = 0' },
+                                    { title: 'Potansiyel Farkı', value: 'ΔV = V₂ - V₁' },
+                                ],
+                                memory: '🧠 "Alan VEKTÖR, Potansiyel SKALER" - Yön var/yok',
+                                tip: '💡 Eşpotansiyel yüzeyler alan çizgilerine diktir'
+                            }
+                        ]
+                    },
+                    2: {
+                        title: 'Kuvvet ve Hareket',
+                        sections: [
+                            {
+                                title: '🚀 Newton\'un Hareket Yasaları',
+                                flowSteps: [
+                                    '1. YASA (Eylemsizlik): Net kuvvet = 0 → Hız sabit kalır',
+                                    '2. YASA (F=ma): Net kuvvet → İvme oluşturur',
+                                    '3. YASA (Etki-Tepki): Her etkiye eşit ve zıt tepki vardır'
+                                ],
+                                formula: 'F_net = m · a',
+                                important: 'İkinci yasa vektörel! Kuvvetler bileşenlerine ayrılır',
+                                memory: '🧠 "Eylem İle Etki-Tepki" → 1.Eylemsizlik, 2.İvme, 3.Etki-Tepki',
+                                yks: 'Newton yasaları ve serbest cisim diyagramları mutlaka çıkar'
+                            },
+                            {
+                                title: '⚖️ Sürtünme Kuvveti',
+                                diagram: `
+                                    <div style="padding: 30px; text-align: center;">
+                                        <div style="background: #ff6b6b; color: white; padding: 20px; border-radius: 15px; margin: 20px auto; max-width: 400px;">
+                                            <div style="font-size: 1.5em; margin-bottom: 15px;">Statik Sürtünme</div>
+                                            <div style="font-size: 1.2em;">f_s ≤ μ_s · N</div>
+                                            <div style="margin-top: 10px; font-size: 0.9em;">(Cisim hareket etmeden önceki maksimum)</div>
+                                        </div>
+                                        <div style="background: #4ecdc4; color: white; padding: 20px; border-radius: 15px; margin: 20px auto; max-width: 400px;">
+                                            <div style="font-size: 1.5em; margin-bottom: 15px;">Kinetik Sürtünme</div>
+                                            <div style="font-size: 1.2em;">f_k = μ_k · N</div>
+                                            <div style="margin-top: 10px; font-size: 0.9em;">(Cisim hareket halindeyken)</div>
+                                        </div>
+                                    </div>
+                                `,
+                                important: 'μ_s > μ_k (Statik sürtünme katsayısı her zaman daha büyüktür)',
+                                tip: '💡 Sürtünme yüzey alanına bağlı DEĞİLDİR!',
+                                warning: '⚠️ TUZAK: Normal kuvvet her zaman ağırlığa eşit değildir!'
+                            },
+                            {
+                                title: '💨 Momentum ve İtme',
+                                formula: 'p = m · v (Momentum)',
+                                infoCards: [
+                                    { title: 'Momentum', value: 'p = m·v (kg·m/s)' },
+                                    { title: 'İtme', value: 'I = F·Δt = Δp' },
+                                    { title: 'Korunum', value: 'Σp_önce = Σp_sonra' },
+                                    { title: 'Çarpışma', value: 'Esnek: KE korunur, Esnek olmayan: KE korunmaz' },
+                                ],
+                                memory: '🧠 "Momentum VEKTÖRdür" - Yön önemli!',
+                                yks: 'Çarpışma ve momentum korunumu kesin çıkar'
+                            }
+                        ]
+                    }
+                },
+                'kimya': {
+                    1: {
+                        title: 'Gazlar',
+                        sections: [
+                            {
+                                title: '☁️ Gaz Yasaları',
+                                flowSteps: [
+                                    'BOYLE YASASI (T sabit): P · V = sabit',
+                                    'CHARLES YASASI (P sabit): V / T = sabit',
+                                    'GAY-LUSSAC YASASI (V sabit): P / T = sabit',
+                                    'BİRLEŞİK GAZ YASASI: (P₁V₁)/T₁ = (P₂V₂)/T₂'
+                                ],
+                                memory: '🧠 "BoCaGa" → Boyle, Charles, Gay-Lussac',
+                                important: 'Sıcaklık mutlaka Kelvin cinsinden olmalı! T(K) = T(°C) + 273',
+                                yks: 'Gaz yasaları ve hesaplamaları her yıl çıkar'
+                            },
+                            {
+                                title: '⚗️ İdeal Gaz Denklemi',
+                                formula: 'P · V = n · R · T',
+                                diagram: `
+                                    <div style="background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 30px; border-radius: 15px; text-align: center;">
+                                        <h3 style="margin-bottom: 20px;">İdeal Gaz Denklemi</h3>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 20px;">PV = nRT</div>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; text-align: left;">
+                                            <div>P = Basınç (atm, Pa)</div>
+                                            <div>V = Hacim (L, m³)</div>
+                                            <div>n = Mol sayısı (mol)</div>
+                                            <div>R = Gaz sabiti</div>
+                                            <div style="grid-column: 1/-1; text-align: center; margin-top: 10px;">T = Sıcaklık (K)</div>
+                                        </div>
+                                    </div>
+                                `,
+                                infoCards: [
+                                    { title: 'R = 0.082 atm·L/(mol·K)', value: 'En çok kullanılan' },
+                                    { title: 'R = 8.314 J/(mol·K)', value: 'SI birimi' },
+                                    { title: 'Standart Koşullar', value: '0°C, 1 atm → 22.4 L' },
+                                ],
+                                tip: '💡 Gaz sabiti R\'nin birimlerine göre diğer birimleri ayarla!',
+                                warning: '⚠️ Sıcaklık mutlaka Kelvin olmalı!'
+                            },
+                            {
+                                title: '🎈 Dalton\'un Kısmi Basınç Yasası',
+                                formula: 'P_toplam = P₁ + P₂ + P₃ + ...',
+                                content: 'Bir gaz karışımının toplam basıncı, gazların kısmi basınçları toplamına eşittir.',
+                                infoCards: [
+                                    { title: 'Kısmi Basınç', value: 'P_i = X_i · P_toplam' },
+                                    { title: 'Mol Kesri', value: 'X_i = n_i / n_toplam' },
+                                    { title: 'Toplam', value: 'ΣX_i = 1' },
+                                ],
+                                memory: '🧠 "Her gaz kendi basıncını yapar"'
+                            }
+                        ]
+                    },
+                    2: {
+                        title: 'Çözeltiler',
+                        sections: [
+                            {
+                                title: '💧 Derişim Birimleri',
+                                infoCards: [
+                                    { title: 'Molarite (M)', value: 'mol/L' },
+                                    { title: 'Molalite (m)', value: 'mol/kg çözücü' },
+                                    { title: 'Kütle Yüzdesi', value: '(m_çözünen/m_çözelti)×100' },
+                                    { title: 'Hacim Yüzdesi', value: '(V_çözünen/V_çözelti)×100' },
+                                    { title: 'ppm', value: 'mg/L veya (m/m)×10⁶' },
+                                ],
+                                formula: 'M = n / V (Molarite)',
+                                memory: '🧠 "MoLar → mol/Litre, MoLal → mol/kiLoğram"',
+                                yks: 'Seyreltme hesaplamaları: M₁V₁ = M₂V₂ çok önemli!'
+                            },
+                            {
+                                title: '🌡️ Koligatif Özellikler',
+                                flowSteps: [
+                                    '1. Buhar Basıncı Düşmesi: ΔP = X_çözünen · P°',
+                                    '2. Kaynama Noktası Yükselmesi: ΔT_k = K_k · m',
+                                    '3. Donma Noktası Alçalması: ΔT_d = K_d · m',
+                                    '4. Ozmotik Basınç: π = M · R · T'
+                                ],
+                                important: 'Koligatif özellikler sadece partikül sayısına bağlıdır, türüne değil!',
+                                tip: '💡 İyonlaşan maddeler (NaCl gibi) daha fazla partikül verir',
+                                warning: '⚠️ van\'t Hoff faktörü (i) elektrolitleri hesaba kat!'
+                            }
+                        ]
+                    }
+                },
+                'biyoloji': {
+                    1: {
+                        title: 'Sinir Sistemi',
+                        sections: [
+                            {
+                                title: '🧠 Nöron Yapısı',
+                                diagram: `
+                                    <div style="padding: 30px; background: linear-gradient(135deg, #43e97b, #38f9d7); border-radius: 15px; color: white;">
+                                        <div style="text-align: center; margin-bottom: 20px; font-size: 1.5em; font-weight: bold;">NÖRON</div>
+                                        <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;">
+                                            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                                                <div style="font-size: 1.2em; margin-bottom: 5px;">Dendrit</div>
+                                                <div style="font-size: 0.9em;">Uyarı alır</div>
+                                            </div>
+                                            <div style="font-size: 2em;">→</div>
+                                            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                                                <div style="font-size: 1.2em; margin-bottom: 5px;">Hücre Gövdesi</div>
+                                                <div style="font-size: 0.9em;">İşler</div>
+                                            </div>
+                                            <div style="font-size: 2em;">→</div>
+                                            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                                                <div style="font-size: 1.2em; margin-bottom: 5px;">Akson</div>
+                                                <div style="font-size: 0.9em;">Uyarı iletir</div>
+                                            </div>
+                                            <div style="font-size: 2em;">→</div>
+                                            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                                                <div style="font-size: 1.2em; margin-bottom: 5px;">Sinaps</div>
+                                                <div style="font-size: 0.9em;">Diğer nörona iletir</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `,
+                                memory: '🧠 "DeHücAkSi" → Dendrit, Hücre gövdesi, Akson, Sinaps',
+                                important: 'Uyarı tek yönlü: Dendrit → Akson → Sinaps',
+                                yks: 'Nöron türleri ve sinir iletimi mutlaka çıkar'
+                            },
+                            {
+                                title: '⚡ Sinir İletimi',
+                                flowSteps: [
+                                    'DİNLENME POTANSİYELİ: -70mV (dışarı +, içeri -)',
+                                    'UYARILMA: Na⁺ içeri girer → Depolarizasyon (+40mV)',
+                                    'REPOLARİZASYON: K⁺ dışarı çıkar → Tekrar (-)',
+                                    'HİPERPOLARİZASYON: Geçici olarak -70mV\'nin altına düşer',
+                                    'POMPA ÇALIŞIR: Na⁺-K⁺ pompası normale döndürür'
+                                ],
+                                infoCards: [
+                                    { title: 'Dinlenme', value: '-70 mV' },
+                                    { title: 'Eşik Değer', value: '-55 mV' },
+                                    { title: 'Depolarizasyon', value: '+40 mV' },
+                                    { title: 'Hız', value: '0.5-120 m/s' },
+                                ],
+                                tip: '💡 Miyelin kılıf uyarı iletimini hızlandırır (saltatory)',
+                                warning: '⚠️ Hepsi ya hiç kanunu: Eşik değer aşılırsa tam uyarı oluşur'
+                            },
+                            {
+                                title: '🔗 Sinaps',
+                                content: 'İki nöron arasındaki bağlantı noktasıdır. Kimyasal veya elektriksel olabilir.',
+                                diagram: `
+                                    <div style="text-align: center; padding: 20px;">
+                                        <div style="background: #ff6b6b; color: white; padding: 20px; border-radius: 15px; margin-bottom: 20px; display: inline-block;">
+                                            Presinaptik Nöron<br/>(Sinaps öncesi)
+                                        </div>
+                                        <div style="font-size: 2em; margin: 20px;">↓ Nörotransmitter ↓</div>
+                                        <div style="background: #4ecdc4; color: white; padding: 20px; border-radius: 15px; display: inline-block;">
+                                            Postsinaptik Nöron<br/>(Sinaps sonrası)
+                                        </div>
+                                    </div>
+                                `,
+                                infoCards: [
+                                    { title: 'Asetilkolin', value: 'Kas kasılması' },
+                                    { title: 'Dopamin', value: 'Hareket, motivasyon' },
+                                    { title: 'Serotonin', value: 'Ruh hali, uyku' },
+                                    { title: 'GABA', value: 'İnhibitör (engelleyici)' },
+                                ],
+                                memory: '🧠 "AcDoSeGa" → Asetilkolin, Dopamin, Serotonin, GABA'
+                            }
+                        ]
+                    }
+                },
+                'edebiyat': {
+                    1: {
+                        title: 'Tanzimat Dönemi',
+                        sections: [
+                            {
+                                title: '📅 Tarihsel Bağlam',
+                                content: '1839 Tanzimat Fermanı ile başlar, 1876\'ya kadar sürer.',
+                                diagram: `
+                                    <div style="background: linear-gradient(135deg, #fa709a, #fee140); padding: 30px; border-radius: 15px;">
+                                        <div style="text-align: center; font-size: 1.8em; font-weight: bold; margin-bottom: 30px; color: white;">TANZİMAT DÖNEMİ ZAMAN ÇİZGİSİ</div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 20px; border-radius: 10px;">
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 1.5em; font-weight: bold; color: #fa709a;">1839</div>
+                                                <div style="margin-top: 10px;">Tanzimat Fermanı</div>
+                                            </div>
+                                            <div style="font-size: 2em; color: #fa709a;">→</div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 1.5em; font-weight: bold; color: #fa709a;">1860</div>
+                                                <div style="margin-top: 10px;">Birinci Dönem</div>
+                                            </div>
+                                            <div style="font-size: 2em; color: #fa709a;">→</div>
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 1.5em; font-weight: bold; color: #fa709a;">1876</div>
+                                                <div style="margin-top: 10px;">İkinci Dönem</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `,
+                                important: 'Batılılaşma hareketi edebiyata yansır',
+                                yks: 'Dönem özellikleri ve temsilciler sık sorulur'
+                            },
+                            {
+                                title: '✍️ Önemli Yazarlar ve Eserleri',
+                                infoCards: [
+                                    { title: 'Şinasi', value: 'Şair Evlenmesi (İlk yerli oyun)' },
+                                    { title: 'Namık Kemal', value: 'Vatan yahut Silistre' },
+                                    { title: 'Ziya Paşa', value: 'Harabat, Terkib-i Bend' },
+                                    { title: 'Ahmet Mithat Efendi', value: 'Felâtun Bey ile Rakım Efendi' },
+                                    { title: 'Recaizade M. Ekrem', value: 'Araba Sevdası' },
+                                    { title: 'Abdülhak Hamit', value: 'Makber' },
+                                ],
+                                memory: '🧠 "ŞiNaZiAhReAb" → Şinasi, Namık Kemal, Ziya Paşa, Ahmet Mithat, Recaizade, Abdülhak Hamit',
+                                tip: '💡 Namık Kemal = Vatan şairi, hürriyet savunucusu'
+                            },
+                            {
+                                title: '🎯 Dönem Özellikleri',
+                                flowSteps: [
+                                    'Batı edebiyatından etkilenme (Fransız edebiyatı)',
+                                    'Yeni türler: Roman, hikâye, tiyatro',
+                                    'Dil sadeleşme çabaları',
+                                    'Didaktik (öğretici) yaklaşım',
+                                    'Toplumsal sorunlara eğilme',
+                                    'Vatan, hürriyet, vatan sevgisi temaları'
+                                ],
+                                warning: '⚠️ Henüz tam bir sanat anlayışı yok, fayda ön planda'
+                            }
+                        ]
+                    }
+                },
+                'cografya': {
+                    1: {
+                        title: 'Türkiye\'nin Fiziki Coğrafyası',
+                        sections: [
+                            {
+                                title: '🏔️ Yer Şekilleri',
+                                diagram: `
+                                    <div style="background: linear-gradient(135deg, #ffecd2, #fcb69f); padding: 30px; border-radius: 15px;">
+                                        <div style="text-align: center; font-size: 1.8em; font-weight: bold; margin-bottom: 20px;">TÜRKİYE\'NİN YER ŞEKİLLERİ</div>
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center;">
+                                                <div style="font-size: 3em;">🗻</div>
+                                                <div style="font-weight: bold; margin: 10px 0;">DAĞLAR</div>
+                                                <div>Kuzey Anadolu, Toros</div>
+                                            </div>
+                                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center;">
+                                                <div style="font-size: 3em;">🏔️</div>
+                                                <div style="font-weight: bold; margin: 10px 0;">YAYLALAR</div>
+                                                <div>İç Anadolu, Doğu Anadolu</div>
+                                            </div>
+                                            <div style="background: white; padding: 20px; border-radius: 10px; text-align: center;">
+                                                <div style="font-size: 3em;">🏖️</div>
+                                                <div style="font-weight: bold; margin: 10px 0;">KIYILAR</div>
+                                                <div>Ege, Akdeniz, Karadeniz</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `,
+                                infoCards: [
+                                    { title: 'En Yüksek Dağ', value: 'Ağrı Dağı (5137m)' },
+                                    { title: 'En Büyük Göl', value: 'Van Gölü' },
+                                    { title: 'En Uzun Nehir', value: 'Kızılırmak (1355km)' },
+                                    { title: 'Ortalama Yükseklik', value: '1132 m' },
+                                ],
+                                memory: '🧠 "AğVaKı" → Ağrı (dağ), Van (göl), Kızılırmak (nehir)',
+                                yks: 'Yer şekilleri ve özellikleri sık çıkar'
+                            },
+                            {
+                                title: '🌦️ İklim Özellikleri',
+                                flowSteps: [
+                                    'KARADENİZ: Yağışlı, ılıman, her mevsim yağış',
+                                    'AKDENİZ: Yazı sıcak-kurak, kışı ılık-yağışlı',
+                                    'EGE: Akdeniz benzeri, geçiş iklimi',
+                                    'MARMARA: Geçiş iklimi, 4 mevsim belirgin',
+                                    'İÇ ANADOLU: Karasal, sıcaklık farkı fazla',
+                                    'DOĞU ANADOLU: Soğuk, kar yağışlı',
+                                    'GÜNEYDOĞU: Sıcak, kurak'
+                                ],
+                                tip: '💡 Yükselti arttıkça sıcaklık azalır (100m → 0.5-1°C)',
+                                important: 'Dağlar yağış engeli oluşturur (yağış gölgesi)'
+                            }
+                        ]
+                    }
+                },
+                'tarih': {
+                    1: {
+                        title: 'Osmanlı\'nın Duraklama Dönemi',
+                        sections: [
+                            {
+                                title: '📅 Kronoloji',
+                                diagram: `
+                                    <div style="background: linear-gradient(135deg, #ff9a56, #ff6a88); padding: 30px; border-radius: 15px; color: white;">
+                                        <div style="text-align: center; font-size: 1.8em; font-weight: bold; margin-bottom: 30px;">DURAKLAMA DÖNEMİ (1579-1699)</div>
+                                        <div style="background: white; color: #333; padding: 20px; border-radius: 10px;">
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                                <div style="font-size: 1.3em; font-weight: bold;">1579</div>
+                                                <div>→</div>
+                                                <div>Başlangıç (II. Selim)</div>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                                <div style="font-size: 1.3em; font-weight: bold;">1683</div>
+                                                <div>→</div>
+                                                <div>II. Viyana Kuşatması (Yenilgi)</div>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                <div style="font-size: 1.3em; font-weight: bold;">1699</div>
+                                                <div>→</div>
+                                                <div>Karlofça Antlaşması</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `,
+                                important: 'İlk kez toprak kaybedilen antlaşma: Karlofça (1699)',
+                                yks: 'Antlaşmalar ve sonuçları kesin çıkar'
+                            },
+                            {
+                                title: '⚠️ Duraklama Sebepleri',
+                                flowSteps: [
+                                    'COĞRAFÎ: Sınırlara ulaşıldı, genişleme durdu',
+                                    'EKONOMİK: Yeni ticaret yolları, altın-gümüş akışı',
+                                    'ASKERÎ: Savaş gelir-gider dengesi bozuldu',
+                                    'İDARÎ: Kapıkulu ocakları bozuldu, rüşvet arttı',
+                                    'SOSYAL: Celâli İsyanları, huzursuzluk',
+                                    'BİLİMSEL: Avrupa\'da bilimsel devrim, Osmanlı geri kaldı'
+                                ],
+                                memory: '🧠 "CoEkAsİdSoBi" → Coğrafi, Ekonomik, Askerî, İdari, Sosyal, Bilimsel',
+                                warning: '⚠️ Çok yönlü sebepleri karıştırmayın!'
+                            },
+                            {
+                                title: '📜 Önemli Antlaşmalar',
+                                infoCards: [
+                                    { title: 'Karlofça (1699)', value: 'İlk toprak kaybı' },
+                                    { title: 'Pasarofça (1718)', value: 'Daha fazla kayıp' },
+                                    { title: 'İstanbul (1700)', value: 'Rusya ile' },
+                                    { title: 'Prut (1711)', value: 'Osmanlı lehine' },
+                                ],
+                                tip: '💡 Antlaşma adları genelde yapıldıkları şehirdir'
+                            }
+                        ]
+                    }
+                }
+            };
 
-<!-- ROLES -->
-<section id="roles">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <div class="tag">Temel Bilgiler</div>
-      <h2>AJAN <span>ROLLERI</span></h2>
-      <p>Her takımda 5 oyuncu var. Her birinin farklı bir rolü olmalı.</p>
-    </div>
-    <div class="roles-grid">
-      <div class="role-card reveal">
-        <div class="role-icon">⚔️</div>
-        <h3>Duelist – Saldırgan</h3>
-        <p>Takımın ana fragger'ı. Site almak için öne çıkar ve düşman öldürür. En agresif rol.</p>
-        <div class="agents-list">
-          <span class="agent-pill">Jett</span>
-          <span class="agent-pill">Neon</span>
-          <span class="agent-pill">Reyna</span>
-          <span class="agent-pill">Raze</span>
-          <span class="agent-pill">Phoenix</span>
-          <span class="agent-pill">Clove</span>
-        </div>
-      </div>
-      <div class="role-card reveal">
-        <div class="role-icon">🛡️</div>
-        <h3>Sentinel – Savunucu</h3>
-        <p>Harita kontrolü yapar. Tuzak ve cihazlarla site bekler. Takımın güvenlik duvarı.</p>
-        <div class="agents-list">
-          <span class="agent-pill">Killjoy</span>
-          <span class="agent-pill">Cypher</span>
-          <span class="agent-pill">Sage</span>
-          <span class="agent-pill">Vyse</span>
-          <span class="agent-pill">Chamber</span>
-        </div>
-      </div>
-      <div class="role-card reveal">
-        <div class="role-icon">🔍</div>
-        <h3>Initiator – Başlatıcı</h3>
-        <p>Düşman bilgisi toplar. Flash ve stun atar. Duelist'e yol açar ve siteye giriş kolaylaştırır.</p>
-        <div class="agents-list">
-          <span class="agent-pill">Sova</span>
-          <span class="agent-pill">Fade</span>
-          <span class="agent-pill">Skye</span>
-          <span class="agent-pill">Gekko</span>
-          <span class="agent-pill">Breach</span>
-        </div>
-      </div>
-      <div class="role-card reveal">
-        <div class="role-icon">💨</div>
-        <h3>Controller – Kontrolcü</h3>
-        <p>Duman atar, alan kontrolü yapar. Düşmanların görmesini engeller. Takımın stratejistik beini.</p>
-        <div class="agents-list">
-          <span class="agent-pill">Omen</span>
-          <span class="agent-pill">Viper</span>
-          <span class="agent-pill">Brimstone</span>
-          <span class="agent-pill">Astra</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+            return contentMap[subjectId]?.[topicId] || {
+                title: 'İçerik Hazırlanıyor',
+                sections: [
+                    {
+                        title: '🚧 Bu konu için detaylı içerik hazırlanıyor',
+                        content: 'Çok yakında eklenecek!',
+                        important: 'Diğer konuları inceleyebilirsiniz'
+                    }
+                ]
+            };
+        };
 
-<!-- MAPS -->
-<section id="maps" style="background:#0d0e10;">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <div class="tag">Harita Rehberi</div>
-      <h2>TÜM <span>HARITALAR</span></h2>
-      <p>12 haritanın hepsini, önerilenen ajanları ve stratejileri incele.</p>
-    </div>
-    <div class="filter-bar reveal">
-      <button class="filter-btn active" onclick="filterMaps('all')">Tümü</button>
-      <button class="filter-btn" onclick="filterMaps('comp')">Kompetitif</button>
-      <button class="filter-btn" onclick="filterMaps('casual')">Casual</button>
-      <button class="filter-btn" onclick="filterMaps('3site')">3 Site</button>
-    </div>
-    <div class="maps-grid" id="mapsGrid">
-      <!-- Maps injected by JS -->
-    </div>
-  </div>
-</section>
+        function App() {
+            const [darkMode, setDarkMode] = useState(false);
+            const [selectedSubject, setSelectedSubject] = useState(null);
+            const [selectedTopic, setSelectedTopic] = useState(null);
 
-<!-- TEAM COMPS -->
-<section id="comps">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <div class="tag">Takım Kurma</div>
-      <h2>EN İYİ <span>TAKIM KOMPOZYONLARI</span></h2>
-      <p>Her harita için profesyonelların kullandığı en iyi 5'li kompozyonlar.</p>
-    </div>
-    <div class="comp-cards" id="compCards">
-      <!-- Comps injected by JS -->
-    </div>
-  </div>
-</section>
+            useEffect(() => {
+                if (darkMode) {
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                }
+            }, [darkMode]);
 
-<!-- TIPS -->
-<section id="tips" style="background:#0d0e10;">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <div class="tag">Yeni Başlangıç</div>
-      <h2>BAŞLANGIÇ <span>İPUÇLARI</span></h2>
-      <p>Rankedde yükselmek için bilmen gerekenleri öğren.</p>
-    </div>
-    <div class="tips-grid" id="tipsGrid">
-      <!-- Tips injected by JS -->
-    </div>
-  </div>
-</section>
+            const renderSubjects = () => (
+                <>
+                    <div className="header">
+                        <h1>🎓 Fen Lisesi 11. Sınıf</h1>
+                        <p>Görsel Eğitim Uygulaması - YKS Hazırlık</p>
+                    </div>
+                    <div className="subjects-grid">
+                        {subjects.map(subject => (
+                            <div
+                                key={subject.id}
+                                className="subject-card"
+                                style={{'--color1': subject.color1, '--color2': subject.color2}}
+                                onClick={() => setSelectedSubject(subject)}
+                            >
+                                <div className="subject-icon">{subject.icon}</div>
+                                <div className="subject-title">{subject.name}</div>
+                                <div className="subject-description">{subject.description}</div>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            );
 
-<!-- TIER LIST -->
-<section id="tiers">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <div class="tag">2025 Meta</div>
-      <h2>AJAN <span>TIER LIST</span></h2>
-      <p>Güncel meta'ya göre ajanlar güçten zayıfa sıralandı.</p>
-    </div>
-    <div class="reveal" style="max-width:800px;margin:0 auto;">
-      <div class="tier-table">
-        <div class="tier-row">
-          <div class="tier-label s">S</div>
-          <div class="tier-agents">
-            <span class="tier-agent">Phoenix</span>
-            <span class="tier-agent">Neon</span>
-            <span class="tier-agent">Reyna</span>
-            <span class="tier-agent">Sova</span>
-            <span class="tier-agent">Clove</span>
-            <span class="tier-agent">Sage</span>
-            <span class="tier-agent">Vyse</span>
-            <span class="tier-agent">Omen</span>
-          </div>
-        </div>
-        <div class="tier-row">
-          <div class="tier-label a">A</div>
-          <div class="tier-agents">
-            <span class="tier-agent">Jett</span>
-            <span class="tier-agent">Raze</span>
-            <span class="tier-agent">Fade</span>
-            <span class="tier-agent">Skye</span>
-            <span class="tier-agent">Killjoy</span>
-            <span class="tier-agent">Gekko</span>
-            <span class="tier-agent">Viper</span>
-            <span class="tier-agent">Yoru</span>
-          </div>
-        </div>
-        <div class="tier-row">
-          <div class="tier-label b">B</div>
-          <div class="tier-agents">
-            <span class="tier-agent">Cypher</span>
-            <span class="tier-agent">Chamber</span>
-            <span class="tier-agent">Breach</span>
-            <span class="tier-agent">Brimstone</span>
-            <span class="tier-agent">Deadlock</span>
-            <span class="tier-agent">Iso</span>
-            <span class="tier-agent">KAY/O</span>
-            <span class="tier-agent">Astra</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+            const renderTopics = () => {
+                const subject = selectedSubject;
+                return (
+                    <div className="content-view">
+                        <button className="back-button" onClick={() => setSelectedSubject(null)}>
+                            ← Ana Menü
+                        </button>
+                        <h2 style={{color: subject.color1, marginBottom: '20px', fontSize: '2em'}}>
+                            {subject.icon} {subject.name}
+                        </h2>
+                        <div className="topics-list">
+                            {subject.topics.map(topic => (
+                                <div
+                                    key={topic.id}
+                                    className="topic-card"
+                                    style={{'--color1': subject.color1}}
+                                    onClick={() => setSelectedTopic(topic)}
+                                >
+                                    <div className="topic-title">{topic.title}</div>
+                                    <div className="topic-subtitle">{topic.subtitle}</div>
+                                    <span className="yks-badge">YKS İÇİN ÖNEMLİ</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            };
 
-<!-- FOOTER -->
-<footer>
-  <p style="color:#fff;font-family:'Orbitron',sans-serif;font-size:.9rem;letter-spacing:2px;">VAL<span style="color:var(--red);">REHBER</span></p>
-  <p>Valorant oyun rehberi — Haritalar, Ajanlar & Stratejiler</p>
-  <p class="disclaimer">Bu site resmi Riot Games veya VALORANT ile ilgili değildir. VALORANT® Riot Games'in tescilli markası. Tüm bilgiler kamuya açık kaynaklardan derlenerek hazırlanmıştır.</p>
-</footer>
+            const renderTopicContent = () => {
+                const subject = selectedSubject;
+                const topic = selectedTopic;
+                const content = getTopicContent(subject.id, topic.id);
 
-<script>
-// ─── DATA ───
-const maps = [
-  { name:"Ascent", loc:"Venezia, İtalya", status:"comp", sites:2, desc:"Açık orta alan kontrolü kritik. Mid kontrol eden takım genellikle kazanır. Kapılar açılıp kapanabilir.", features:["Açık Mid Alan","Mekanik Kapılar","2 Site","Balanced Harita"], agents:["Jett","Omen","Sova","Killjoy","KAY/O"] },
-  { name:"Haven", loc:"Santorini, Yunanistan", status:"comp", sites:3, desc:"3 site haritası. Savunucular sürekli rotate yapmalı. Saldırıcılar için çok seçenek var.", features:["3 Site Yapısı","Uzun Rotate","Çok Giriş Noktası","Saldırı Favori"], agents:["Yoru","Sova","Omen","Killjoy","Breach"] },
-  { name:"Split", loc:"Tokyo, Japonya", status:"comp", sites:2, desc:"Çok katmanlı ve dar koridor yapısı. Vertical oynamak önemli. Savunma avantajlı harita.", features:["Çok Katmanlı","Dar Koridorlar","Zipline Rotasyon","Savunma Favori"], agents:["Raze","Omen","Viper","Sage","Skye"] },
-  { name:"Icebox", loc:"Alaska, Amerika", status:"comp", sites:2, desc:"Soğuk tema, çok yükseklik farkı. Zipline kullanımı önemli. Site kontrolünde vertical akey.", features:["Yükseklik Farkı","Zipline Bölgeleri","Çok Cover","Vertical Gameplay"], agents:["Viper","Sova","Sage","Chamber","Killjoy"] },
-  { name:"Lotus", loc:"Mumbai, Hindistan", status:"comp", sites:3, desc:"3 site, dönen kapılar ve kırılabilir duvar. Saldırı avantajlı, defender rotasyon zor.", features:["3 Site","Dönen Kapılar","Kırılabilir Duvar","Saldırı Favori"], agents:["Raze","Gekko","Omen","Viper","Vyse"] },
-  { name:"Pearl", loc:"Omega Dünya", status:"comp", sites:2, desc:"Kompakt mid, uzun kanat koridorlar. Ekip koordinasyonu çok önemli. Neredeyse mekanik yok.", features:["Kompakt Mid","Uzun Kanat Yollar","Ekip Odaklı","Balanced Harita"], agents:["Fade","Omen","Cypher","Jett","Sova"] },
-  { name:"Sunset", loc:"Los Angeles, Amerika", status:"comp", sites:2, desc:"LA temalarında, mekanik kapılar var. Mid kontrol çok önemli. Saldırı avantajlı.", features:["Mekanik Kapılar","Yoğun Mid","Post-Plant Kolay","Saldırı Favori"], agents:["Neon","Sova","Omen","Cypher","Breach"] },
-  { name:"Bind", loc:"Rabat, Fare", status:"casual", sites:2, desc:"Teleporter haritası! Hızlı rotasyon yapmak mümkün ama riskli. Mid yok, sol ya da sağ seç.", features:["Teleporter Mekanizması","Mid Yok","Hızlı Rotasyon","Tuzak Dolu"], agents:["Raze","Viper","Brimstone","Gekko","Cypher"] },
-  { name:"Fracture", loc:"New Mexico, Amerika", status:"casual", sites:2, desc:"Savunucu spawn ikiye bölün! Çok giriş noktası, saldırı avantajlı. Utility çok önemli.", features:["Split Savunucu Spawn","Çok Giriş","Saldırı Favori","Utility Kritik"], agents:["Breach","Raze","Brimstone","Fade","Chamber"] },
-  { name:"Breeze", loc:"Bermuda Adaları", status:"casual", sites:2, desc:"En büyük harita! Açık alanlar ve uzun sightline dominant. Cover arkasına saklanmak kritik.", features:["En Büyük Harita","Uzun Sightline","Açık Alan","Long Range Dominant"], agents:["Jett","Sova","Viper","Omen","Chamber"] },
-  { name:"Abyss", loc:"İsveç Kıyıları", status:"casual", sites:2, desc:"Sınırsız harita! Düşebilirsin. Vertical gameplay çok önemli. Death drop tuzakları var.", features:["Sınırsız Harita","Düşme Tehlikesi","Vertical Dominant","Death Drop Plays"], agents:["Jett","Raze","Omen","Sova","Neon"] },
-  { name:"Corrode", loc:"Mont-Saint-Michel", status:"comp", sites:2, sites_count:2, desc:"En yeni harita! Kompakt giriş noktaları ve dar koridor yapısı. Meta henüz oturmuyor.", features:["Yeni Harita","Kompakt Layout","Dar Koridorlar","Evolving Meta"], agents:["Neon","Chamber","Omen","Sova","Fade"] }
-];
+                return (
+                    <div className="content-view">
+                        <button className="back-button" onClick={() => setSelectedTopic(null)}>
+                            ← Konulara Dön
+                        </button>
+                        <h2 style={{color: subject.color1, marginBottom: '10px', fontSize: '2em'}}>
+                            {content.title}
+                        </h2>
+                        <p style={{color: '#666', marginBottom: '30px', fontSize: '1.1em'}}>
+                            {topic.subtitle}
+                        </p>
 
-const comps = [
-  { map:"Ascent", name:"Klasik Ascent Kurulumu", agents:[
-    { role:"Duelist", name:"Jett", desc:"Mid kontrol ve Operator oynama" },
-    { role:"Controller", name:"Omen", desc:"A site duman, Mid kontrol" },
-    { role:"Initiator", name:"Sova", desc:"Mid drone ve recon dart" },
-    { role:"Initiator", name:"KAY/O", desc:"Flash ve suppress ile giriş" },
-    { role:"Sentinel", name:"Killjoy", desc:"B site kilit, alarm bot" }
-  ]},
-  { map:"Haven", name:"3 Site Agresif Kurulum", agents:[
-    { role:"Duelist", name:"Yoru", desc:"Fake play ve dimensional drift" },
-    { role:"Controller", name:"Omen", desc:"Site duman ve paranoia" },
-    { role:"Initiator", name:"Sova", desc:"3 site arası intel" },
-    { role:"Initiator", name:"Breach", desc:"Rolling thunder ile site clear" },
-    { role:"Sentinel", name:"Killjoy", desc:"Retake kolaylaştırma" }
-  ]},
-  { map:"Split", name:"Dual Controller Kurulum", agents:[
-    { role:"Duelist", name:"Raze", desc:"Dar koridor temizleme, boombot" },
-    { role:"Controller", name:"Omen", desc:"Mid ve A Main duman" },
-    { role:"Controller", name:"Viper", desc:"Wall ile alan deny" },
-    { role:"Initiator", name:"Skye", desc:"Flash ile giriş kolaylaştırma" },
-    { role:"Sentinel", name:"Sage", desc:"Wall ile alan block" }
-  ]},
-  { map:"Icebox", name:"Vertical Kontrol Kurulumu", agents:[
-    { role:"Duelist", name:"Jett", desc:"Yüksek açı alma, Operator" },
-    { role:"Controller", name:"Viper", desc:"Choke point kontrol, post-plant" },
-    { role:"Initiator", name:"Sova", desc:"Vertical intel gathering" },
-    { role:"Sentinel", name:"Sage", desc:"Heal ve wall ile rotasyon" },
-    { role:"Sentinel", name:"Chamber", desc:"Long range tutma, Trademark" }
-  ]},
-  { map:"Lotus", name:"3 Site Saldırı Kurulumu", agents:[
-    { role:"Duelist", name:"Raze", desc:"Rubble temizleme, hızlı rotate" },
-    { role:"Controller", name:"Omen", desc:"Duman ile site giriş" },
-    { role:"Controller", name:"Viper", desc:"Post-plant alan kontrol" },
-    { role:"Initiator", name:"Gekko", desc:"Dizzy ile flash, Reggie ile info" },
-    { role:"Sentinel", name:"Vyse", desc:"Razorvine ile area deny" }
-  ]},
-  { map:"Bind", name:"Double Controller Meta", agents:[
-    { role:"Duelist", name:"Raze", desc:"Boombot ile Hookah/Lamp temizleme" },
-    { role:"Controller", name:"Viper", desc:"B site tam alan kapama" },
-    { role:"Controller", name:"Brimstone", desc:"Site duman + molotov" },
-    { role:"Initiator", name:"Gekko", desc:"Site almak için flash" },
-    { role:"Sentinel", name:"Cypher", desc:"Teleporter kontrolü" }
-  ]}
-];
+                        {content.sections.map((section, idx) => (
+                            <div key={idx} className="visual-content" style={{'--color1': subject.color1, '--color2': subject.color2}}>
+                                <div className="visual-section">
+                                    <h3>{section.title}</h3>
+                                    
+                                    {section.content && (
+                                        <p style={{fontSize: '1.1em', lineHeight: '1.8', marginBottom: '20px'}}>
+                                            {section.content}
+                                        </p>
+                                    )}
 
-const tips = [
-  { title:"Communication Önce", desc:"Her roundda takımınla konuşun. Düşman nerede, ne yapacaksınız, kim öne çıkacak. Sessiz kalmak en büyük hata." },
-  { title:"Harita Öğren", desc:"Önce 3-4 haritayı iyi öğren. Her haritanın callout isimlerini, açılarını ve rotasyon yollarını ezberle." },
-  { title:"Utility Kullan", desc:"Silah almak kadar utility almak önemli. Duman, flash ve molotov olmadan site alamazısın." },
-  { title:"Ekonomi Yönet", desc:"Her roundda팀ün paranı düşün. Bazen save round yapmak kazanmak kadar önemlidir. Unnecessary buy yapma." },
-  { title:"Crosshair Pozisyonu", desc:"Crosshair her zaman head level'da olmalı. Bu doğru şot anında zaman kazandırır ve öldürme oranını artırır." },
-  { title:"Harita Rotasyon", desc:"Kompetitif havuzda 7 harita var. Ama casual'da tümünde oynayabilirsin. En iyi 2-3 haritanı mastersanalı yap." },
-  { title:"Role Seç, Master Ol", desc:"Her rolden birini seç ve uzmanlaş. Sova mu? Killjoy mu? Bir ajanı çok iyi oynamak iki ajanı orta oynamaktan iyidir." },
-  { title:"Post-Plant Öğren", desc:"Spike plantlama sonrası nasıl oynayacağını öğren. Post-plant wins çok önemlidir. Timer aşırı düşince defender kazanır." }
-];
+                                    {section.diagram && (
+                                        <div className="diagram" dangerouslySetInnerHTML={{__html: section.diagram}} />
+                                    )}
 
-// ─── RENDER MAPS ───
-function renderMaps(filter='all') {
-  const grid = document.getElementById('mapsGrid');
-  grid.innerHTML = '';
-  maps.forEach((m,i) => {
-    if(filter === 'comp' && m.status !== 'comp') return;
-    if(filter === 'casual' && m.status !== 'casual') return;
-    if(filter === '3site' && m.sites !== 3) return;
-    const card = document.createElement('div');
-    card.className = 'map-card reveal';
-    card.style.animationDelay = i*0.06+'s';
-    card.innerHTML = `
-      <div class="map-card-header">
-        <span class="map-status ${m.status}">${m.status === 'comp' ? '✓ Kompetitif' : '○ Casual'}</span>
-        <h3>${m.name}</h3>
-        <div class="map-loc">📍 ${m.loc} &nbsp;|&nbsp; ${m.sites} Site</div>
-      </div>
-      <div class="map-card-body">
-        <p class="map-desc">${m.desc}</p>
-        ${m.features.map(f => `<div class="map-feature"><span class="dot"></span>${f}</div>`).join('')}
-        <div class="map-agents">
-          <div class="map-agents-label">📌 Önerilen Ajanlar</div>
-          <div class="agents-row">${m.agents.map(a => `<span class="agent-pill">${a}</span>`).join('')}</div>
-        </div>
-      </div>`;
-    grid.appendChild(card);
-  });
-  triggerReveal();
-}
+                                    {section.formula && (
+                                        <div className="formula-box">
+                                            <strong>📐 Formül:</strong> {section.formula}
+                                        </div>
+                                    )}
 
-function filterMaps(type) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderMaps(type);
-}
+                                    {section.important && (
+                                        <div className="important-box">
+                                            <strong>⭐ ÖNEMLİ:</strong> {section.important}
+                                        </div>
+                                    )}
 
-// ─── RENDER COMPS ───
-function renderComps() {
-  const container = document.getElementById('compCards');
-  comps.forEach((c,i) => {
-    const card = document.createElement('div');
-    card.className = 'comp-card reveal';
-    card.innerHTML = `
-      <div class="tag">Takım Kurulumu</div>
-      <h3>${c.name}</h3>
-      <div class="comp-map">🗺️ ${c.map}</div>
-      ${c.agents.map(a => `
-        <div class="comp-row">
-          <span class="comp-role-tag ${a.role.toLowerCase()}">${a.role}</span>
-          <div>
-            <div class="comp-agent-name">${a.name}</div>
-            <div class="comp-agent-desc">${a.desc}</div>
-          </div>
-        </div>
-      `).join('')}`;
-    container.appendChild(card);
-  });
-}
+                                    {section.tip && (
+                                        <div className="tip-box">
+                                            <strong>💡 PÜF NOKTASI:</strong> {section.tip}
+                                        </div>
+                                    )}
 
-// ─── RENDER TIPS ───
-function renderTips() {
-  const container = document.getElementById('tipsGrid');
-  tips.forEach((t,i) => {
-    const card = document.createElement('div');
-    card.className = 'tip-card reveal';
-    card.innerHTML = `
-      <div class="tip-num">0${i+1}</div>
-      <h3>${t.title}</h3>
-      <p>${t.desc}</p>`;
-    container.appendChild(card);
-  });
-}
+                                    {section.warning && (
+                                        <div className="warning-box">
+                                            <strong>⚠️ DİKKAT TUZAK:</strong> {section.warning}
+                                        </div>
+                                    )}
 
-// ─── SCROLL REVEAL ───
-function triggerReveal() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, { threshold:0.1 });
-  document.querySelectorAll('.reveal').forEach(el => {
-    el.classList.remove('visible');
-    observer.observe(el);
-  });
-}
+                                    {section.yks && (
+                                        <div className="important-box" style={{background: '#fff3cd', borderLeftColor: '#ff6b6b'}}>
+                                            <strong>🎯 YKS NOTU:</strong> {section.yks}
+                                        </div>
+                                    )}
 
-// ─── INIT ───
-renderMaps();
-renderComps();
-renderTips();
-triggerReveal();
+                                    {section.memory && (
+                                        <div className="memory-technique">
+                                            {section.memory}
+                                        </div>
+                                    )}
 
-// Nav scroll hide
-let lastY = 0;
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  if(window.scrollY > lastY && window.scrollY > 80) nav.style.transform = 'translateY(-100%)';
-  else nav.style.transform = 'translateY(0)';
-  lastY = window.scrollY;
-});
-</script>
+                                    {section.concepts && (
+                                        <div className="concept-map">
+                                            {section.concepts.map((concept, i) => (
+                                                <div key={i} className="concept-node">{concept}</div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {section.flowSteps && (
+                                        <div className="flow-chart">
+                                            {section.flowSteps.map((step, i) => (
+                                                <div key={i} className="flow-step">{step}</div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {section.infoCards && (
+                                        <div className="info-grid">
+                                            {section.infoCards.map((card, i) => (
+                                                <div key={i} className="info-card">
+                                                    <h4>{card.title}</h4>
+                                                    <p>{card.value}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                );
+            };
+
+            return (
+                <div className="app">
+                    <button className="dark-toggle" onClick={() => setDarkMode(!darkMode)}>
+                        {darkMode ? '☀️ Aydınlık' : '🌙 Karanlık'}
+                    </button>
+                    
+                    {!selectedSubject && renderSubjects()}
+                    {selectedSubject && !selectedTopic && renderTopics()}
+                    {selectedSubject && selectedTopic && renderTopicContent()}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
 </body>
 </html>
